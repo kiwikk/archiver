@@ -1,0 +1,3 @@
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/cmake-build-debug/CMakeFiles/Frolova_E_BSE185_151.dir
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/cmake-build-debug/CMakeFiles/rebuild_cache.dir

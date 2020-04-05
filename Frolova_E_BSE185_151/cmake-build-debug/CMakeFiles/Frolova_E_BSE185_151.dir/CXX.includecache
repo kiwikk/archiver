@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/ShannonFano.cpp
+bitset
+-
+iostream
+-
+map
+-
+vector
+-
+algorithm
+-
+fstream
+-
+
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/main.cpp
+ShannonFano.cpp
+C:/Users/Mi/Desktop/Wow proga/Cpp/Frolova_E_BSE185_151/ShannonFano.cpp
+
