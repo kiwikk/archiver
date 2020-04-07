@@ -59,55 +59,53 @@ private:
 
     //+
     //высчитывание медианы
-    std::vector<FanoNode>::iterator get_index(std::vector<FanoNode>::iterator iter_begin,
-                                              std::vector<FanoNode>::iterator iter_end)
+    int get_index(int begin, int end)
     {
         int tmp = 0;
         int probability = 0;
 
-        for (auto i = iter_begin; i != iter_end; ++i)
+        for (auto i = begin; i != end; ++i)
         {
-            probability += i->frequency;
+            probability += fanoCodes[i].frequency;
         }
 
         while (tmp * 2 < probability)
         {
-            tmp += iter_begin->frequency;
-            ++iter_begin;
+            tmp += fanoCodes[begin].frequency;
+            ++begin;
         }
 
-        if (tmp + iter_begin->frequency < probability - tmp)
+        if (tmp + fanoCodes[begin].frequency < probability - tmp)
         {
-            iter_begin = prev(iter_begin);
+            --begin;
         }
 
-        return iter_begin;
+        return begin;
     }
 
     //+
     //алгоритм Фано
-    void Shannon_Fano_code(__gnu_cxx::__normal_iterator<FanoNode *, std::vector<FanoNode>> iter_begin,
-                           __gnu_cxx::__normal_iterator<FanoNode *, std::vector<FanoNode>> iter_end)
+    void Shannon_Fano_code(int begin, int end)
     {
-        auto mid_iter = get_index(iter_begin, iter_end);
+        auto mid = get_index(begin, end);
 
-        if ((next(iter_begin) != iter_end && iter_begin != iter_end) || data_size != 0)
+        if ((begin + 1 != end && begin != end) || data_size != 0)
         {
 
-            for (auto it = iter_begin; it != mid_iter; ++it)
+            for (auto it = begin; it < mid; ++it)
             {
-                it->code += "0";
+                fanoCodes[it].code += "0";
             }
 
-            for (auto it = mid_iter; it != iter_end; ++it)
+            for (auto it = mid; it < end; ++it)
             {
-                it->code += "1";
+                fanoCodes[it].code += "1";
             }
 
             data_size = 0;
 
-            Shannon_Fano_code(iter_begin, mid_iter);
-            Shannon_Fano_code(mid_iter, iter_end);
+            Shannon_Fano_code(begin, mid);
+            Shannon_Fano_code(mid, end);
         } else return;
     }
 
@@ -125,7 +123,7 @@ private:
                       return l.frequency > r.frequency;
                   });
 
-        Shannon_Fano_code(fanoCodes.begin(), fanoCodes.end());
+        Shannon_Fano_code(0, fanoCodes.size());
         for (const auto &item:fanoCodes)
         {
             codes[item.symbol] = item.code;
@@ -251,8 +249,8 @@ private:
             code += byte_string[i];
             if (dict.find(code) != dict.end())
             {
-                result+=dict[code];
-                code="";
+                result += dict[code];
+                code = "";
             }
         }
 
@@ -263,7 +261,7 @@ private:
     ///////////////////////////////////////
     ///input-output
     //////////////////////////////////////
-    //
+    //+
     // тут записываем в файл байты
     void write_to_file(std::string &str, std::string fileName)
     {
@@ -287,6 +285,7 @@ private:
         bytes_to_chars(str, chars, position, size);
 
         std::ofstream ofs(fileName, std::ios::binary | std::ios::out);
+        ofs.clear();
         ofs << addition << "\n";
         ofs << codes.size() << "\n";
         for (auto item:codes)
@@ -301,7 +300,7 @@ private:
     }
 
     //+
-    // считать данные из файла (записывает байты в outputString и возвращает длину)
+    // считать данные из файла в вектор чаров, запомнить длину строки
     std::vector<char> read_file(std::string &path)
     {
         std::ifstream ifs(path, std::ios::binary | std::ios::ate);
